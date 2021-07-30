@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+
+    <include>
+      <name>box1</name>
+      <uri>model://big_box4</uri>
+      <pose>0 0 0.625 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>box2</name>
+      <uri>model://big_box4</uri>
+      <pose>0 0 1.875 0 0 0</pose>
+    </include>
+
+
+    <include>
+      <name>box3</name>
+      <uri>model://big_box4</uri>
+      <pose>40 0 0.625 0 0 0</pose>
+    </include>
+
+    <include>
+      <name>box4</name>
+      <uri>model://big_box4</uri>
+      <pose>40 0 1.875 0 0 0</pose>
+    </include>
+
+
+  </world>
+</sdf>

@@ -14,7 +14,7 @@ class SIMPLE_ARVA_SEARCH:
 		rospy.init_node("arva_search")
 
 		rospy.Subscriber('mavros/state', State, self.stateCb)
-		rospy.Subscriber("/receiver1/signal", arva, self.arvaCb)
+		rospy.Subscriber("/arva_receiver/signal", arva, self.arvaCb)
 		rospy.Subscriber("/mavros/global_position/local", Odometry, self.posCb)
 		self.vel_pub = rospy.Publisher('mavros/setpoint_raw/local', PositionTarget, queue_size=0)
 
@@ -34,13 +34,13 @@ class SIMPLE_ARVA_SEARCH:
 			self.arva_ready = False
 
 	def stateCb(self, msg):
-		self.state = msg	
+		self.state = msg
 
 	def posCb(self, msg):
 		self.z = msg.pose.pose.position.z
 
 	def run(self):
-		rate = rospy.Rate(10.0)	
+		rate = rospy.Rate(10.0)
 		max_vel = 1.0
 		sp = PositionTarget()
 		sp.type_mask = 1 + 2 + 4 + 64 + 128 + 256 + 512 + 1024
@@ -56,9 +56,9 @@ class SIMPLE_ARVA_SEARCH:
 		armService(True)
 		takeoffService = rospy.ServiceProxy('mavros/cmd/takeoff', mavros_msgs.srv.CommandTOL)
 		takeoffService(yaw = 1.5, latitude = 44.4928127, longitude = 11.3299824, altitude = 2.5)
-		
+
 		time.sleep(2)
-	
+
 		flightModeService = rospy.ServiceProxy('mavros/set_mode', mavros_msgs.srv.SetMode)
 		flightModeService(custom_mode='OFFBOARD')
 		while not rospy.is_shutdown():
@@ -75,10 +75,11 @@ class SIMPLE_ARVA_SEARCH:
 				sp.velocity.y = vxy[0]
 				sp.velocity.z = vz
 				sp.yaw_rate = 0.0
+				print(sp.velocity.x, sp.velocity.y)
 
 			else:
 				sp.velocity.x = sp.velocity.y = sp.velocity.z = sp.yaw_rate = 0.0
-			
+
 			self.vel_pub.publish( sp  );
 			rate.sleep()
 

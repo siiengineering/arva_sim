@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <arg name="id"              default="1" />
+    <arg name="x"               default="1.0"/>
+    <arg name="y"               default="0.0"/>
+    <arg name="z"               default="0.5"/>
+
+	<param name="arva_description_$(arg id)" command="$(find xacro)/xacro --inorder  $(find arva_sim)/urdf/transmitter.urdf.xacro id:=$(arg id)"/>
+	<node name="spawn_artva_$(arg id)" pkg="gazebo_ros" type="spawn_model" args="-param arva_description_$(arg id) -urdf -x $(arg x) -y $(arg y) -z $(arg z) -model artva$(arg id)" 	respawn="false" output="screen">
+	</node>
+</launch>
